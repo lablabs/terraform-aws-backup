@@ -1,6 +1,8 @@
 module "source_kms_key" {
   source  = "cloudposse/kms-key/aws"
   version = "0.12.1"
+
+  enabled = var.enabled
   providers = {
     aws = aws.source
   }
@@ -16,8 +18,7 @@ module "target_kms_key" {
   source  = "cloudposse/kms-key/aws"
   version = "0.12.1"
 
-  enabled = var.is_cross_acount_backup_enabled
-
+  enabled = var.enabled && var.is_cross_acount_backup_enabled
   providers = {
     aws = aws.target
   }

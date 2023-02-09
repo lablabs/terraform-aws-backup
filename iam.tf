@@ -9,6 +9,8 @@ locals {
 module "source_role" {
   source  = "cloudposse/iam-role/aws"
   version = "0.17.0"
+
+  enabled = var.enabled
   providers = {
     aws = aws.source
   }
@@ -35,8 +37,7 @@ module "target_role" {
   source  = "cloudposse/iam-role/aws"
   version = "0.17.0"
 
-  enabled = var.is_cross_acount_backup_enabled
-
+  enabled = var.enabled && var.is_cross_acount_backup_enabled
   providers = {
     aws = aws.target
   }

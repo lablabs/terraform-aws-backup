@@ -1,5 +1,6 @@
 # Source vault
 resource "aws_backup_vault" "source" {
+  count         = var.enabled ? 1 : 0
   provider      = aws.source
   name          = "${module.label.id}-source"
   kms_key_arn   = module.source_kms_key.key_arn
@@ -7,14 +8,15 @@ resource "aws_backup_vault" "source" {
 }
 
 resource "aws_backup_vault_policy" "source" {
+  count             = var.enabled ? 1 : 0
   provider          = aws.source
-  backup_vault_name = aws_backup_vault.source.name
+  backup_vault_name = aws_backup_vault.source[0].name
   policy            = data.aws_iam_policy_document.source_vault.json
 }
 
 resource "aws_backup_plan" "source" {
   provider = aws.source
-  for_each = { for bp in var.backup_plans : bp.name => bp }
+  for_each = { for bp in var.backup_plans : bp.name => bp if var.enabled }
 
   name = each.value.name
 
@@ -22,7 +24,7 @@ resource "aws_backup_plan" "source" {
     for_each = each.value.rules
     content {
       rule_name           = rule.value.name
-      target_vault_name   = aws_backup_vault.source.name
+      target_vault_name   = aws_backup_vault.source[0].name
       schedule            = rule.value.schedule
       start_window        = try(rule.value.start_window, 60)
       completion_window   = try(rule.value.completion_window, 180)
@@ -63,7 +65,7 @@ resource "aws_backup_selection" "source" {
         resource_arn : resource
       }
     ]
-  ]) : md5("${bp.backup_plan_key}${bp.resource_arn}") => bp }
+  ]) : md5("${bp.backup_plan_key}${bp.resource_arn}") => bp if var.enabled }
 
   # one Resource assignment multiple arns
   # for_each = {for bp in var.backup_plans:  bp.name => bp}
@@ -77,7 +79,7 @@ resource "aws_backup_selection" "source" {
 
 # Target vault
 resource "aws_backup_vault" "target" {
-  count         = var.is_cross_acount_backup_enabled ? 1 : 0
+  count         = var.enabled && var.is_cross_acount_backup_enabled ? 1 : 0
   provider      = aws.target
   name          = "${module.label.id}-target"
   kms_key_arn   = module.target_kms_key.key_arn
@@ -85,7 +87,7 @@ resource "aws_backup_vault" "target" {
 }
 
 resource "aws_backup_vault_policy" "target" {
-  count             = var.is_cross_acount_backup_enabled ? 1 : 0
+  count             = var.enabled && var.is_cross_acount_backup_enabled ? 1 : 0
   provider          = aws.target
   backup_vault_name = aws_backup_vault.target[0].name
   policy            = data.aws_iam_policy_document.target_vault[0].json
