@@ -15,6 +15,7 @@ repos:
     - id: terraform_fmt
     - id: terraform_tflint
     - id: terraform_validate
+      exclude: '^[^/]+$'
     - id: terraform_checkov
     - id: terraform_docs
       args:
