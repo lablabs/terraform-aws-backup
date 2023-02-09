@@ -31,19 +31,50 @@ See [Basic example](examples/basic/README.md) for further information.
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_label"></a> [label](#module\_label) | cloudposse/label/null | 0.25.0 |
+| <a name="module_source_kms_key"></a> [source\_kms\_key](#module\_source\_kms\_key) | cloudposse/kms-key/aws | 0.12.1 |
+| <a name="module_source_role"></a> [source\_role](#module\_source\_role) | cloudposse/iam-role/aws | 0.17.0 |
+| <a name="module_target_kms_key"></a> [target\_kms\_key](#module\_target\_kms\_key) | cloudposse/kms-key/aws | 0.12.1 |
+| <a name="module_target_role"></a> [target\_role](#module\_target\_role) | cloudposse/iam-role/aws | 0.17.0 |
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [aws_backup_plan.source](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_plan) | resource |
+| [aws_backup_selection.source](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_selection) | resource |
+| [aws_backup_vault.source](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault) | resource |
+| [aws_backup_vault.target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault) | resource |
+| [aws_backup_vault_policy.source](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault_policy) | resource |
+| [aws_backup_vault_policy.target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault_policy) | resource |
+| [aws_caller_identity.source](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_caller_identity.target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_iam_policy_document.kms_source_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.kms_target_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.source_vault](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.target_vault](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_aws_tags"></a> [aws\_tags](#input\_aws\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
+| <a name="input_backup_plans"></a> [backup\_plans](#input\_backup\_plans) | Backup plans config along with rule and resources setup | `any` | `[]` | no |
+| <a name="input_is_cross_acount_backup_enabled"></a> [is\_cross\_acount\_backup\_enabled](#input\_is\_cross\_acount\_backup\_enabled) | Create backup vault on different account and turn on copy action to this vault (provider.target needs to be set) | `bool` | `false` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name of module resources | `string` | `"aws-backup"` | no |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace name | `string` | `""` | no |
+| <a name="input_stage"></a> [stage](#input\_stage) | Stage name | `string` | `""` | no |
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_source_backup_vault_arn"></a> [source\_backup\_vault\_arn](#output\_source\_backup\_vault\_arn) | Backup Vault ARN of source backup vault |
+| <a name="output_source_backup_vault_id"></a> [source\_backup\_vault\_id](#output\_source\_backup\_vault\_id) | Backup Vault ID of source backup vault |
+| <a name="output_target_backup_vault_arn"></a> [target\_backup\_vault\_arn](#output\_target\_backup\_vault\_arn) | Backup Vault ARN of target backup vault |
+| <a name="output_target_backup_vault_id"></a> [target\_backup\_vault\_id](#output\_target\_backup\_vault\_id) | Backup Vault ID of target backup vault |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Contributing and reporting issues
