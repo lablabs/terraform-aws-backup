@@ -43,10 +43,10 @@ resource "aws_backup_plan" "source" {
         for_each = var.is_cross_acount_backup_enabled == true ? [1] : []
         content {
           dynamic "lifecycle" {
-            for_each = try(rule.value.lifecycle, null) != null ? [true] : []
+            for_each = try(rule.value.copy_action_lifecycle, null) != null ? [true] : []
             content {
-              cold_storage_after = try(rule.value.lifecycle.cold_storage_after, null)
-              delete_after       = try(rule.value.lifecycle.delete_after, null)
+              cold_storage_after = try(rule.value.copy_action_lifecycle.cold_storage_after, null)
+              delete_after       = try(rule.value.copy_action_lifecycle.delete_after, null)
             }
           }
           destination_vault_arn = aws_backup_vault.target[0].arn
@@ -66,9 +66,6 @@ resource "aws_backup_selection" "source" {
       }
     ]
   ]) : md5("${bp.backup_plan_key}${bp.resource_arn}") => bp if var.enabled }
-
-  # one Resource assignment multiple arns
-  # for_each = {for bp in var.backup_plans:  bp.name => bp}
 
   provider     = aws.source
   iam_role_arn = module.source_role.arn

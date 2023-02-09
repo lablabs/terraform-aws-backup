@@ -13,6 +13,8 @@ module "aws-backup-dev-audit" {
     aws.target = aws.target
   }
 
+  enabled = true
+
   name = "dynamod-db"
 
   namespace = "aws-backup"
@@ -25,16 +27,34 @@ module "aws-backup-dev-audit" {
       resources = [aws_dynamodb_table.basic-dynamodb-table.arn]
       rules = [{
         name              = "dynamodb-rule"
-        schedule          = "cron(0 1 * * ? *)"
-        start_window      = 120
-        completion_window = 360
+        schedule          = "cron(30 * * * ? *)"
+        start_window      = 60
+        completion_window = 120
         lifecycle = {
           cold_storage_after = 30
           delete_after       = 180
         }
+        copy_action_lifecycle = {
+          cold_storage_after = 30
+          delete_after       = 180
+        }
+
         recovery_point_tags = {
           "Environemnt" = "dev"
         }
+        },
+        {
+          name              = "dynamodb-rule"
+          schedule          = "cron(0 * * * ? *)"
+          start_window      = 60
+          completion_window = 120
+          lifecycle = {
+            cold_storage_after = 30
+            delete_after       = 180
+          }
+          recovery_point_tags = {
+            "Environemnt" = "dev"
+          }
       }]
     },
     {
