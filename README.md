@@ -1,4 +1,4 @@
-# AWS <$module-name> Terraform module
+# AWS aws-backup Terraform module
 
 [<img src="https://lablabs.io/static/ll-logo.png" width=350px>](https://lablabs.io/)
 
@@ -6,20 +6,21 @@ We help companies build, run, deploy and scale software and infrastructure by em
 
 ---
 
-[![Terraform validate](https://github.com/lablabs/terraform-aws-<$module-name>/actions/workflows/validate.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-<$module-name>/actions/workflows/validate.yaml)
-[![pre-commit](https://github.com/lablabs/terraform-aws-<$module-name>/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/lablabs/terraform-aws-<$module-name>/actions/workflows/pre-commit.yml)
+[![Terraform validate](https://github.com/lablabs/terraform-aws-backup/actions/workflows/validate.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-backup/actions/workflows/validate.yaml)
+[![pre-commit](https://github.com/lablabs/terraform-aws-backup/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/lablabs/terraform-aws-backup/actions/workflows/pre-commit.yml)
 
 ## Description
 
-A Terraform module to provision <$module-name>
+A Terraform module to provision aws-backup
 
 ## Related Projects
 
 Check out other [terraform modules](https://github.com/orgs/lablabs/repositories?q=terraform-aws&type=public&language=&sort=).
 
 ## Examples
-
-See [Basic example](examples/basic/README.md) for further information.
+- [Single account example](examples/single-account/README.md)
+- [Cross account example](examples/cross-account/README.md)
+  - Backup vault in other account will be created
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
