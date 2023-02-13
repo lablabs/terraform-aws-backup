@@ -19,6 +19,7 @@ resource "aws_backup_plan" "source" {
   for_each = { for bp in var.backup_plans : bp.name => bp if var.enabled }
 
   name = each.value.name
+  tags = var.tags
 
   dynamic "rule" {
     for_each = each.value.rules

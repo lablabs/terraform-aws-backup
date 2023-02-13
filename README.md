@@ -61,13 +61,13 @@ Check out other [terraform modules](https://github.com/orgs/lablabs/repositories
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aws_tags"></a> [aws\_tags](#input\_aws\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
 | <a name="input_backup_plans"></a> [backup\_plans](#input\_backup\_plans) | Backup plans config along with rule and resources setup | `any` | `[]` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Variable indicating whether deployment is enabled | `bool` | `true` | no |
 | <a name="input_is_cross_acount_backup_enabled"></a> [is\_cross\_acount\_backup\_enabled](#input\_is\_cross\_acount\_backup\_enabled) | Create backup vault on different account and turn on copy action to this vault (provider.target needs to be set) | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of module resources | `string` | `"aws-backup"` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace name | `string` | `""` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | Stage name | `string` | `""` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
 
 ## Outputs
 

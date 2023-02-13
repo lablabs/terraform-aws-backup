@@ -4,5 +4,5 @@ module "label" {
   name      = var.name
   namespace = var.namespace
   stage     = var.stage
-  tags      = var.aws_tags
+  tags      = var.tags
 }

@@ -22,7 +22,7 @@ variable "stage" {
   description = "Stage name"
 }
 
-variable "aws_tags" {
+variable "tags" {
   type        = map(string)
   default     = {}
   description = "Additional tags (e.g. `map('BusinessUnit','XYZ')`"
