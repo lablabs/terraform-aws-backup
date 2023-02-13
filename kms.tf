@@ -12,6 +12,7 @@ module "source_kms_key" {
   enable_key_rotation     = true
   alias                   = "alias/${module.label.id}-source"
   policy                  = data.aws_iam_policy_document.kms_source_policy.json
+  tags                    = var.tags
 }
 
 module "target_kms_key" {
@@ -28,6 +29,7 @@ module "target_kms_key" {
   enable_key_rotation     = true
   alias                   = "alias/${module.label.id}-target"
   policy                  = data.aws_iam_policy_document.kms_target_policy.json
+  tags                    = var.tags
 }
 
 data "aws_caller_identity" "source" {

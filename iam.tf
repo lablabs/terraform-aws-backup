@@ -30,6 +30,8 @@ module "source_role" {
   managed_policy_arns = local.aws_backup_managed_policy_arns
 
   policy_document_count = 0
+
+  tags = var.tags
 }
 
 
@@ -57,6 +59,8 @@ module "target_role" {
   policy_document_count = 0
 
   managed_policy_arns = local.aws_backup_managed_policy_arns
+
+  tags = var.tags
 }
 
 
