@@ -64,6 +64,7 @@ module "target_role" {
 
 data "aws_iam_policy_document" "source_vault" {
   provider = aws.source
+
   statement {
     sid    = "Enable backup"
     effect = "Allow"
@@ -83,9 +84,9 @@ data "aws_iam_policy_document" "source_vault" {
 }
 
 data "aws_iam_policy_document" "target_vault" {
-  count = var.is_cross_acount_backup_enabled ? 1 : 0
-
+  count    = var.is_cross_acount_backup_enabled ? 1 : 0
   provider = aws.target
+
   statement {
     sid    = "Enable backup"
     effect = "Allow"
