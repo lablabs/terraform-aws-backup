@@ -25,6 +25,13 @@ module "aws-backup-dev-audit" {
     {
       name      = "dynamodb-plan"
       resources = [aws_dynamodb_table.basic-dynamodb-table.arn]
+      selection_tags = [
+        {
+          type  = "STRINGEQUALS"
+          key   = "tag:stage"
+          value = "dev"
+        }
+      ]
       rules = [{
         name              = "dynamodb-rule"
         schedule          = "cron(30 * * * ? *)"

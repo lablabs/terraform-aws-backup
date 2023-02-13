@@ -24,12 +24,13 @@ resource "aws_backup_plan" "source" {
   dynamic "rule" {
     for_each = each.value.rules
     content {
-      rule_name           = rule.value.name
-      target_vault_name   = aws_backup_vault.source[0].name
-      schedule            = rule.value.schedule
-      start_window        = try(rule.value.start_window, 60)
-      completion_window   = try(rule.value.completion_window, 180)
-      recovery_point_tags = try(rule.value.recovery_point_tags, null)
+      rule_name                = rule.value.name
+      target_vault_name        = aws_backup_vault.source[0].name
+      schedule                 = rule.value.schedule
+      start_window             = try(rule.value.start_window, 60)
+      completion_window        = try(rule.value.completion_window, 180)
+      recovery_point_tags      = try(rule.value.recovery_point_tags, null)
+      enable_continuous_backup = try(rule.value.enable_continuous_backup, null)
 
 
       dynamic "lifecycle" {
@@ -41,7 +42,7 @@ resource "aws_backup_plan" "source" {
       }
 
       dynamic "copy_action" {
-        for_each = var.is_cross_acount_backup_enabled == true ? [1] : []
+        for_each = var.is_cross_acount_backup_enabled == true ? [true] : []
         content {
           dynamic "lifecycle" {
             for_each = try(rule.value.copy_action_lifecycle, null) != null ? [true] : []
@@ -56,8 +57,20 @@ resource "aws_backup_plan" "source" {
       }
     }
   }
+
+  dynamic "advanced_backup_setting" {
+    for_each = try(each.value.advanced_backup_setting, null) != null ? [true] : []
+
+    content {
+      backup_options = {
+        WindowsVSS = try(each.value.advanced_backup_setting.WindowsVSS, null)
+      }
+      resource_type = try(each.value.advanced_backup_setting.resource_type, null)
+    }
+  }
 }
 
+# Resource selection by arn
 resource "aws_backup_selection" "source" {
   for_each = { for bp in flatten([
     for bp_plan in var.backup_plans : [
@@ -73,6 +86,29 @@ resource "aws_backup_selection" "source" {
   plan_id      = aws_backup_plan.source[each.value.backup_plan_key].id
   name         = substr("${module.label.id}-${each.key}", 0, 50)
   resources    = [each.value.resource_arn]
+}
+
+# Resource selection by tag
+resource "aws_backup_selection" "tag" {
+  for_each = { for bp in flatten([
+    for bp_plan in var.backup_plans : [
+      for selection_tag in bp_plan.selection_tags : {
+        backup_plan_key : bp_plan.name
+        selection_tag : selection_tag
+      }
+    ]
+  ]) : md5("${bp.backup_plan_key}${bp.selection_tag["type"]}${bp.selection_tag["key"]}${bp.selection_tag["value"]}") => bp if var.enabled }
+
+  provider     = aws.source
+  iam_role_arn = module.source_role.arn
+  plan_id      = aws_backup_plan.source[each.value.backup_plan_key].id
+  name         = substr("${module.label.id}-${each.key}", 0, 50)
+  resources    = ["*"]
+  selection_tag {
+    type  = each.value.selection_tag["type"]
+    key   = each.value.selection_tag["key"]
+    value = each.value.selection_tag["value"]
+  }
 }
 
 # Target vault
