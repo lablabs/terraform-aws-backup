@@ -2,7 +2,7 @@
 resource "aws_backup_vault" "source" {
   count         = var.enabled ? 1 : 0
   provider      = aws.source
-  name          = "${module.label.id}-source"
+  name          = local.source_name
   kms_key_arn   = module.source_kms_key.key_arn
   force_destroy = true
 }
@@ -84,7 +84,7 @@ resource "aws_backup_selection" "source" {
   provider     = aws.source
   iam_role_arn = module.source_role.arn
   plan_id      = aws_backup_plan.source[each.value.backup_plan_key].id
-  name         = substr("${module.label.id}-${each.key}", 0, 50)
+  name         = substr("${local.id}-${each.key}", 0, 50)
   resources    = [each.value.resource_arn]
 }
 
@@ -102,7 +102,7 @@ resource "aws_backup_selection" "tag" {
   provider     = aws.source
   iam_role_arn = module.source_role.arn
   plan_id      = aws_backup_plan.source[each.value.backup_plan_key].id
-  name         = substr("${module.label.id}-${each.key}", 0, 50)
+  name         = substr("${local.id}-${each.key}", 0, 50)
   resources    = ["*"]
   selection_tag {
     type  = each.value.selection_tag["type"]
@@ -115,7 +115,7 @@ resource "aws_backup_selection" "tag" {
 resource "aws_backup_vault" "target" {
   count         = var.enabled && var.is_cross_acount_backup_enabled ? 1 : 0
   provider      = aws.target
-  name          = "${module.label.id}-target"
+  name          = local.target_name
   kms_key_arn   = module.target_kms_key.key_arn
   force_destroy = true
 }

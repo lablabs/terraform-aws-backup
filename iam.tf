@@ -15,7 +15,7 @@ module "source_role" {
     aws = aws.source
   }
 
-  name = "${module.label.id}-source"
+  name = local.source_name
 
   role_description = local.role_description
 
@@ -44,7 +44,7 @@ module "target_role" {
     aws = aws.target
   }
 
-  name = "${module.label.id}-target"
+  name = local.target_name
 
   role_description = local.role_description
 

@@ -7,10 +7,10 @@ module "source_kms_key" {
     aws = aws.source
   }
 
-  context                 = module.label.context
+  context                 = local.context
   deletion_window_in_days = 7
   enable_key_rotation     = true
-  alias                   = "alias/${module.label.id}-source"
+  alias                   = "alias/${local.source_name}"
   policy                  = data.aws_iam_policy_document.kms_source_policy.json
   tags                    = var.tags
 }
@@ -24,10 +24,10 @@ module "target_kms_key" {
     aws = aws.target
   }
 
-  context                 = module.label.context
+  context                 = local.context
   deletion_window_in_days = 7
   enable_key_rotation     = true
-  alias                   = "alias/${module.label.id}-target"
+  alias                   = "alias/${local.target_name}"
   policy                  = data.aws_iam_policy_document.kms_target_policy.json
   tags                    = var.tags
 }
