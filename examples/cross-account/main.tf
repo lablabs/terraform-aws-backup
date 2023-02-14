@@ -24,7 +24,7 @@ module "aws-backup-dev-audit" {
   backup_plans = [
     {
       name      = "dynamodb-plan"
-      resources = [aws_dynamodb_table.basic-dynamodb-table.arn]
+      resources = [aws_dynamodb_table.example.arn]
       selection_tags = [
         {
           type  = "STRINGEQUALS"
@@ -63,7 +63,7 @@ module "aws-backup-dev-audit" {
     },
     {
       name      = "dynamodb-plan2"
-      resources = [aws_dynamodb_table.basic-dynamodb-table.arn]
+      resources = [aws_dynamodb_table.example.arn]
       rules = [{
         name              = "dynamodb-rule2"
         schedule          = "cron(0 1 * * ? *)"

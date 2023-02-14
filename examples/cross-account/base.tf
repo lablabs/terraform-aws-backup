@@ -1,5 +1,5 @@
 # terraform apply --target aws_dynamodb_table.basic-dynamodb-table
-resource "aws_dynamodb_table" "basic-dynamodb-table" {
+resource "aws_dynamodb_table" "example" {
   #checkov:skip=CKV_AWS_28
   #checkov:skip=CKV_AWS_119
   #checkov:skip=CKV2_AWS_16
