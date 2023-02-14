@@ -1,4 +1,4 @@
-# AWS aws-backup Terraform module
+# AWS Backup Terraform module
 
 [<img src="https://lablabs.io/static/ll-logo.png" width=350px>](https://lablabs.io/)
 
@@ -11,7 +11,7 @@ We help companies build, run, deploy and scale software and infrastructure by em
 
 ## Description
 
-A Terraform module to provision aws-backup
+A Terraform module to provision AWS Backup
 
 ## Related Projects
 
