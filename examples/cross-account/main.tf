@@ -54,8 +54,7 @@ module "aws-backup-dev-audit" {
           start_window      = 60
           completion_window = 120
           lifecycle = {
-            cold_storage_after = 30
-            delete_after       = 180
+            delete_after = 14
           }
           recovery_point_tags = {
             "Environemnt" = "dev"
