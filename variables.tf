@@ -55,6 +55,10 @@ variable "backup_plans" {
         cold_storage_after = optional(number)
         delete_after       = optional(number)
       }))
+      copy_action_lifecycle = optional(object({
+        cold_storage_after = optional(number)
+        delete_after       = optional(number)
+      }))
       recovery_point_tags = optional(map(string))
     }))
     advanced_backup_setting = optional(object({
