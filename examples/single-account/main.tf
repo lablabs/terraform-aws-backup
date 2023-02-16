@@ -32,7 +32,7 @@ module "aws-backup-dev-audit" {
           delete_after = 14
         }
         recovery_point_tags = {
-          "Environemnt" = "dev"
+          "Environment" = "dev"
         }
       }]
     },
