@@ -4,31 +4,7 @@ variable "enabled" {
   description = "Variable indicating whether deployment is enabled"
 }
 
-variable "name" {
-  type        = string
-  default     = "aws-backup"
-  description = "Name of module resources"
-}
-
-variable "namespace" {
-  type        = string
-  default     = ""
-  description = "Namespace name"
-}
-
-variable "stage" {
-  type        = string
-  default     = ""
-  description = "Stage name"
-}
-
-variable "tags" {
-  type        = map(string)
-  default     = {}
-  description = "Additional tags (e.g. `map('BusinessUnit','XYZ')`"
-}
-
-variable "is_cross_acount_backup_enabled" {
+variable "is_cross_account_backup_enabled" {
   type        = bool
   default     = false
   description = "Create backup vault on different account and turn on copy action to this vault (provider.target needs to be set)"

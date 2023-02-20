@@ -15,7 +15,7 @@ module "source_role" {
     aws = aws.source
   }
 
-  name = local.source_name
+  context = module.source_label.context
 
   role_description = local.role_description
 
@@ -30,8 +30,6 @@ module "source_role" {
   managed_policy_arns = local.aws_backup_managed_policy_arns
 
   policy_document_count = 0
-
-  tags = var.tags
 }
 
 
@@ -39,12 +37,12 @@ module "target_role" {
   source  = "cloudposse/iam-role/aws"
   version = "0.17.0"
 
-  enabled = var.enabled && var.is_cross_acount_backup_enabled
+  enabled = var.enabled && var.is_cross_account_backup_enabled
   providers = {
     aws = aws.target
   }
 
-  name = local.target_name
+  context = module.target_label.context
 
   role_description = local.role_description
 
@@ -59,8 +57,6 @@ module "target_role" {
   policy_document_count = 0
 
   managed_policy_arns = local.aws_backup_managed_policy_arns
-
-  tags = var.tags
 }
 
 
@@ -88,7 +84,7 @@ data "aws_iam_policy_document" "source_vault" {
 }
 
 data "aws_iam_policy_document" "target_vault" {
-  count    = var.is_cross_acount_backup_enabled ? 1 : 0
+  count    = var.is_cross_account_backup_enabled ? 1 : 0
   provider = aws.target
 
   statement {

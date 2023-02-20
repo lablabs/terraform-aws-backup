@@ -34,10 +34,11 @@ Check out other [terraform modules](https://github.com/orgs/lablabs/repositories
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_label"></a> [label](#module\_label) | cloudposse/label/null | 0.25.0 |
 | <a name="module_source_kms_key"></a> [source\_kms\_key](#module\_source\_kms\_key) | cloudposse/kms-key/aws | 0.12.1 |
+| <a name="module_source_label"></a> [source\_label](#module\_source\_label) | cloudposse/label/null | 0.25.0 |
 | <a name="module_source_role"></a> [source\_role](#module\_source\_role) | cloudposse/iam-role/aws | 0.17.0 |
 | <a name="module_target_kms_key"></a> [target\_kms\_key](#module\_target\_kms\_key) | cloudposse/kms-key/aws | 0.12.1 |
+| <a name="module_target_label"></a> [target\_label](#module\_target\_label) | cloudposse/label/null | 0.25.0 |
 | <a name="module_target_role"></a> [target\_role](#module\_target\_role) | cloudposse/iam-role/aws | 0.17.0 |
 
 ## Resources
@@ -62,13 +63,16 @@ Check out other [terraform modules](https://github.com/orgs/lablabs/repositories
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_attributes"></a> [attributes](#input\_attributes) | ID element. Additional attributes (e.g. `workers` or `cluster`) to add to `id`,<br>in the order they appear in the list. New attributes are appended to the<br>end of the list. The elements of the list are joined by the `delimiter`<br>and treated as a single ID element. | `list(string)` | `[]` | no |
 | <a name="input_backup_plans"></a> [backup\_plans](#input\_backup\_plans) | Backup plans config along with rule and resources setup | <pre>list(object({<br>    name      = string<br>    resources = optional(list(string), [])<br>    selection_tags = optional(list(object({<br>      type  = string<br>      key   = string<br>      value = string<br>    })), [])<br>    rules = list(object({<br>      name                     = string<br>      schedule                 = string<br>      enable_continuous_backup = optional(bool)<br>      start_window             = optional(string, 60)<br>      completion_window        = optional(number, 180)<br>      lifecycle = optional(object({<br>        cold_storage_after = optional(number)<br>        delete_after       = optional(number)<br>      }))<br>      copy_action_lifecycle = optional(object({<br>        cold_storage_after = optional(number)<br>        delete_after       = optional(number)<br>      }))<br>      recovery_point_tags = optional(map(string))<br>    }))<br>    advanced_backup_setting = optional(object({<br>      WindowsVSS    = optional(string, null)<br>      resource_type = optional(string, null)<br>    }), null)<br>  }))</pre> | `[]` | no |
+| <a name="input_context"></a> [context](#input\_context) | Single object for setting entire context at once.<br>See description of individual variables for details.<br>Leave string and numeric variables as `null` to use default value.<br>Individual variable settings (non-null) override settings in context object,<br>except for attributes, tags, and additional\_tag\_map, which are merged. | `any` | <pre>{<br>  "additional_tag_map": {},<br>  "attributes": [],<br>  "delimiter": null,<br>  "descriptor_formats": {},<br>  "enabled": true,<br>  "environment": null,<br>  "id_length_limit": null,<br>  "label_key_case": null,<br>  "label_order": [],<br>  "label_value_case": null,<br>  "labels_as_tags": [<br>    "unset"<br>  ],<br>  "name": null,<br>  "namespace": null,<br>  "regex_replace_chars": null,<br>  "stage": null,<br>  "tags": {},<br>  "tenant": null<br>}</pre> | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Variable indicating whether deployment is enabled | `bool` | `true` | no |
-| <a name="input_is_cross_acount_backup_enabled"></a> [is\_cross\_acount\_backup\_enabled](#input\_is\_cross\_acount\_backup\_enabled) | Create backup vault on different account and turn on copy action to this vault (provider.target needs to be set) | `bool` | `false` | no |
-| <a name="input_name"></a> [name](#input\_name) | Name of module resources | `string` | `"aws-backup"` | no |
-| <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace name | `string` | `""` | no |
-| <a name="input_stage"></a> [stage](#input\_stage) | Stage name | `string` | `""` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
+| <a name="input_is_cross_account_backup_enabled"></a> [is\_cross\_account\_backup\_enabled](#input\_is\_cross\_account\_backup\_enabled) | Create backup vault on different account and turn on copy action to this vault (provider.target needs to be set) | `bool` | `false` | no |
+| <a name="input_name"></a> [name](#input\_name) | ID element. Usually the component or solution name, e.g. 'app' or 'jenkins'.<br>This is the only ID element not also included as a `tag`.<br>The "name" tag is set to the full `id` string. There is no tag with the value of the `name` input. | `string` | `null` | no |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | ID element. Usually an abbreviation of your organization name, e.g. 'eg' or 'cp', to help ensure generated IDs are globally unique | `string` | `null` | no |
+| <a name="input_stage"></a> [stage](#input\_stage) | ID element. Usually used to indicate role, e.g. 'prod', 'staging', 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `{'BusinessUnit': 'XYZ'}`).<br>Neither the tag keys nor the tag values will be modified by this module. | `map(string)` | `{}` | no |
 
 ## Outputs
 

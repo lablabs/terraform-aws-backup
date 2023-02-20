@@ -7,29 +7,27 @@ module "source_kms_key" {
     aws = aws.source
   }
 
-  context                 = local.context
+  context                 = module.source_label.context
   deletion_window_in_days = 7
   enable_key_rotation     = true
-  alias                   = "alias/${local.source_name}"
+  alias                   = "alias/${module.source_label.id}"
   policy                  = data.aws_iam_policy_document.kms_source_policy.json
-  tags                    = var.tags
 }
 
 module "target_kms_key" {
   source  = "cloudposse/kms-key/aws"
   version = "0.12.1"
 
-  enabled = var.enabled && var.is_cross_acount_backup_enabled
+  enabled = var.enabled && var.is_cross_account_backup_enabled
   providers = {
     aws = aws.target
   }
 
-  context                 = local.context
+  context                 = module.target_label.context
   deletion_window_in_days = 7
   enable_key_rotation     = true
-  alias                   = "alias/${local.target_name}"
+  alias                   = "alias/${module.target_label.id}"
   policy                  = data.aws_iam_policy_document.kms_target_policy.json
-  tags                    = var.tags
 }
 
 data "aws_caller_identity" "source" {

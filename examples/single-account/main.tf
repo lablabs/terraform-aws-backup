@@ -17,7 +17,7 @@ module "aws-backup-dev-audit" {
 
   namespace = "aws-backup"
 
-  is_cross_acount_backup_enabled = false
+  is_cross_account_backup_enabled = false
 
   backup_plans = [
     {

@@ -17,9 +17,9 @@ module "aws-backup-dev-audit" {
 
   name = "dynamod-db"
 
-  namespace = "aws-backup"
+  # namespace = "aws-backup"
 
-  is_cross_acount_backup_enabled = true
+  is_cross_account_backup_enabled = true
 
   backup_plans = [
     {

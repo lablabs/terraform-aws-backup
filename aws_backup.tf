@@ -2,8 +2,9 @@
 resource "aws_backup_vault" "source" {
   count         = var.enabled ? 1 : 0
   provider      = aws.source
-  name          = local.source_name
+  name          = module.source_label.id
   kms_key_arn   = module.source_kms_key.key_arn
+  tags          = module.source_label.tags
   force_destroy = true
 }
 
@@ -19,7 +20,7 @@ resource "aws_backup_plan" "source" {
   for_each = { for bp in var.backup_plans : bp.name => bp if var.enabled }
 
   name = each.value.name
-  tags = var.tags
+  tags = module.source_label.tags
 
   dynamic "rule" {
     for_each = each.value.rules
@@ -42,7 +43,7 @@ resource "aws_backup_plan" "source" {
       }
 
       dynamic "copy_action" {
-        for_each = var.is_cross_acount_backup_enabled == true ? [true] : []
+        for_each = var.is_cross_account_backup_enabled == true ? [true] : []
         content {
           dynamic "lifecycle" {
             for_each = try(rule.value.copy_action_lifecycle, null) != null ? [true] : []
@@ -84,7 +85,7 @@ resource "aws_backup_selection" "source" {
   provider     = aws.source
   iam_role_arn = module.source_role.arn
   plan_id      = aws_backup_plan.source[each.value.backup_plan_key].id
-  name         = substr("${local.id}-${each.key}", 0, 50)
+  name         = substr("${module.source_label.id}-${each.key}", 0, 50)
   resources    = [each.value.resource_arn]
 }
 
@@ -102,7 +103,7 @@ resource "aws_backup_selection" "tag" {
   provider     = aws.source
   iam_role_arn = module.source_role.arn
   plan_id      = aws_backup_plan.source[each.value.backup_plan_key].id
-  name         = substr("${local.id}-${each.key}", 0, 50)
+  name         = substr("${module.source_label.id}-${each.key}", 0, 50)
   resources    = ["*"]
   selection_tag {
     type  = each.value.selection_tag["type"]
@@ -113,15 +114,16 @@ resource "aws_backup_selection" "tag" {
 
 # Target vault
 resource "aws_backup_vault" "target" {
-  count         = var.enabled && var.is_cross_acount_backup_enabled ? 1 : 0
+  count         = var.enabled && var.is_cross_account_backup_enabled ? 1 : 0
   provider      = aws.target
-  name          = local.target_name
+  name          = module.target_label.id
   kms_key_arn   = module.target_kms_key.key_arn
+  tags          = module.source_label.tags
   force_destroy = true
 }
 
 resource "aws_backup_vault_policy" "target" {
-  count             = var.enabled && var.is_cross_acount_backup_enabled ? 1 : 0
+  count             = var.enabled && var.is_cross_account_backup_enabled ? 1 : 0
   provider          = aws.target
   backup_vault_name = aws_backup_vault.target[0].name
   policy            = data.aws_iam_policy_document.target_vault[0].json
