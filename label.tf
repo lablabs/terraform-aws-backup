@@ -7,6 +7,7 @@ module "source_label" {
   attributes  = concat(["source"], var.attributes)
   environment = var.environment
   tags        = var.tags
+  context     = var.context
 }
 
 module "target_label" {
@@ -18,4 +19,5 @@ module "target_label" {
   attributes  = concat(["target"], var.attributes)
   environment = var.environment
   tags        = var.tags
+  context     = var.context
 }
