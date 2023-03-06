@@ -66,7 +66,8 @@ data "aws_iam_policy_document" "kms_source_policy" {
       "kms:Decrypt",
       "kms:ReEncrypt*",
       "kms:GenerateDataKey*",
-      "kms:DescribeKey"
+      "kms:DescribeKey",
+      "kms:CreateGrant"
     ]
 
     #checkov:skip=CKV_AWS_109
@@ -109,7 +110,8 @@ data "aws_iam_policy_document" "kms_target_policy" {
       "kms:Decrypt",
       "kms:ReEncrypt*",
       "kms:GenerateDataKey*",
-      "kms:DescribeKey"
+      "kms:DescribeKey",
+      "kms:CreateGrant"
     ]
 
     #checkov:skip=CKV_AWS_109
