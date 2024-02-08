@@ -104,7 +104,6 @@ resource "aws_backup_selection" "tag" {
   iam_role_arn = module.source_role.arn
   plan_id      = aws_backup_plan.source[each.value.backup_plan_key].id
   name         = substr("${module.source_label.id}-${each.key}", 0, 50)
-  resources    = ["*"]
   selection_tag {
     type  = each.value.selection_tag["type"]
     key   = each.value.selection_tag["key"]
