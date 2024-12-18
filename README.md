@@ -50,6 +50,8 @@ Check out other [terraform modules](https://github.com/orgs/lablabs/repositories
 | [aws_backup_selection.tag](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_selection) | resource |
 | [aws_backup_vault.source](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault) | resource |
 | [aws_backup_vault.target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault) | resource |
+| [aws_backup_vault_lock_configuration.source](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault_lock_configuration) | resource |
+| [aws_backup_vault_lock_configuration.target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault_lock_configuration) | resource |
 | [aws_backup_vault_policy.source](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault_policy) | resource |
 | [aws_backup_vault_policy.target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/backup_vault_policy) | resource |
 | [aws_caller_identity.source](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
@@ -73,6 +75,8 @@ Check out other [terraform modules](https://github.com/orgs/lablabs/repositories
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | ID element. Usually an abbreviation of your organization name, e.g. 'eg' or 'cp', to help ensure generated IDs are globally unique | `string` | `null` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | ID element. Usually used to indicate role, e.g. 'prod', 'staging', 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `{'BusinessUnit': 'XYZ'}`).<br>Neither the tag keys nor the tag values will be modified by this module. | `map(string)` | `{}` | no |
+| <a name="input_vault_lock_configuration"></a> [vault\_lock\_configuration](#input\_vault\_lock\_configuration) | Vault lock configuration. If `changeable_for_days` is null, governance mode is set, otherwise, immutable compliance mode. | <pre>object({<br>    changeable_for_days = optional(number, null) # If omitted, governance mode is set, otherwise, immutable compliance mode<br>    max_retention_days  = optional(number, null)<br>    min_retention_days  = optional(number, null)<br>  })</pre> | `{}` | no |
+| <a name="input_vault_lock_enabled"></a> [vault\_lock\_enabled](#input\_vault\_lock\_enabled) | Set to true to enable Vault Lock. Defaults to false. WARNING: If lock is enabled, backup plans and vaults may become immutable to all parties. | `bool` | `false` | no |
 
 ## Outputs
 
