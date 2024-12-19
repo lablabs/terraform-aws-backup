@@ -46,7 +46,7 @@ variable "backup_plans" {
 
 variable "vault_lock_enabled" {
   type        = bool
-  description = "Set to true to enable Vault Lock. Defaults to false. WARNING: If lock is enabled, backup plans and vaults may become immutable to all parties."
+  description = "Set to `true` to enable Vault Lock. Defaults to `false`. WARNING: If lock is enabled, backup plans and vaults may become immutable to all parties."
   default     = false
 }
 
