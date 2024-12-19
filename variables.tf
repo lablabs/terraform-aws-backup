@@ -43,3 +43,19 @@ variable "backup_plans" {
     }), null)
   }))
 }
+
+variable "vault_lock_enabled" {
+  type        = bool
+  description = "Set to `true` to enable Vault Lock. Defaults to `false`. WARNING: If lock is enabled, backup plans and vaults may become immutable to all parties."
+  default     = false
+}
+
+variable "vault_lock_configuration" {
+  type = object({
+    changeable_for_days = optional(number, null) # If omitted, governance mode is set, otherwise, immutable compliance mode
+    max_retention_days  = optional(number, null)
+    min_retention_days  = optional(number, null)
+  })
+  description = "Vault lock configuration. If `changeable_for_days` is null, governance mode is set, otherwise, immutable compliance mode."
+  default     = {}
+}

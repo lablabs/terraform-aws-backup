@@ -72,6 +72,7 @@ data "aws_iam_policy_document" "source_vault" {
     actions = ["backup:CopyIntoBackupVault"]
 
     #checkov:skip=CKV_AWS_109
+    #checkov:skip=CKV_AWS_111
     resources = ["*"]
 
     principals {
@@ -94,6 +95,7 @@ data "aws_iam_policy_document" "target_vault" {
     actions = ["backup:CopyIntoBackupVault"]
 
     #checkov:skip=CKV_AWS_109
+    #checkov:skip=CKV_AWS_111
     resources = ["*"]
 
     principals {

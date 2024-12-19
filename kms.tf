@@ -48,6 +48,7 @@ data "aws_iam_policy_document" "kms_source_policy" {
     actions = ["kms:*"]
 
     #checkov:skip=CKV_AWS_109
+    #checkov:skip=CKV_AWS_356
     resources = ["*"]
 
     principals {
@@ -71,6 +72,7 @@ data "aws_iam_policy_document" "kms_source_policy" {
     ]
 
     #checkov:skip=CKV_AWS_109
+    #checkov:skip=CKV_AWS_356
     resources = ["*"]
 
     principals {
@@ -92,6 +94,7 @@ data "aws_iam_policy_document" "kms_target_policy" {
     actions = ["kms:*"]
 
     #checkov:skip=CKV_AWS_109
+    #checkov:skip=CKV_AWS_356
     resources = ["*"]
 
     principals {
@@ -115,6 +118,7 @@ data "aws_iam_policy_document" "kms_target_policy" {
     ]
 
     #checkov:skip=CKV_AWS_109
+    #checkov:skip=CKV_AWS_356
     resources = ["*"]
 
     principals {

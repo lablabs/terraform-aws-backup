@@ -111,6 +111,14 @@ resource "aws_backup_selection" "tag" {
   }
 }
 
+resource "aws_backup_vault_lock_configuration" "source" {
+  count               = var.enabled && var.vault_lock_enabled ? 1 : 0
+  backup_vault_name   = module.source_label.id
+  changeable_for_days = var.vault_lock_configuration.changeable_for_days
+  max_retention_days  = var.vault_lock_configuration.max_retention_days
+  min_retention_days  = var.vault_lock_configuration.min_retention_days
+}
+
 # Target vault
 resource "aws_backup_vault" "target" {
   count         = var.enabled && var.is_cross_account_backup_enabled ? 1 : 0
@@ -126,4 +134,12 @@ resource "aws_backup_vault_policy" "target" {
   provider          = aws.target
   backup_vault_name = aws_backup_vault.target[0].name
   policy            = data.aws_iam_policy_document.target_vault[0].json
+}
+
+resource "aws_backup_vault_lock_configuration" "target" {
+  count               = var.enabled && var.is_cross_account_backup_enabled && var.vault_lock_enabled ? 1 : 0
+  backup_vault_name   = module.target_label.id
+  changeable_for_days = var.vault_lock_configuration.changeable_for_days
+  max_retention_days  = var.vault_lock_configuration.max_retention_days
+  min_retention_days  = var.vault_lock_configuration.min_retention_days
 }
